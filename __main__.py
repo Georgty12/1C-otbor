@@ -1,12 +1,13 @@
 import os
 from difflib import SequenceMatcher
-import Levenstein
+import jellyfish
+
 dir1_name = "dir1"    
 dir2_name = "dir2"
 
 def read_directories():
-    dir1_path = os.getcwd() + "/1C-otbor/" + dir1_name
-    dir2_path = os.getcwd() + "/1C-otbor/" + dir2_name
+    dir1_path = os.getcwd() + "/" + dir1_name
+    dir2_path = os.getcwd() + "/" + dir2_name
     _, _, files1_names = next(os.walk("{}".format(dir1_path)))
     _, _, files2_names = next(os.walk("{}".format(dir2_path)))
 
@@ -25,7 +26,9 @@ def remove_from_unique(file1, file2, unique_files1, unique_files2):
     if (file2 in unique_files2):
         unique_files2.remove(file2)
 
-if __name__ == "__main__":    
+
+
+def main():    
 
     files1, files2, files1_names, files2_names = read_directories()
 
@@ -48,10 +51,15 @@ if __name__ == "__main__":
             if (size1 < size2):
                 l1, l2 = l2, l1
                 size1, size2 = size2, size1
+            
+            if (size1 > 10**5): #If size is not huge, we can use asimptotically bad function, that gives as exact answer
+                matcher = SequenceMatcher(None, l1, l2)
+                matches = sum(triple[-1] for triple in matcher.get_matching_blocks())
+                accuracy_between_files = matches / size1
+            else: # And when size is huge, we use not very accurate, but much faster func
+                accuracy_between_files = jellyfish.levenshtein_distance(l1, l2) / size1
 
-            matcher = SequenceMatcher(None, l1, l2)
-            matches = sum(triple[-1] for triple in matcher.get_matching_blocks())
-            accuracy_between_files = matches / size1
+            print(i, j, accuracy_between_files)
             if accuracy_between_files == 1:
                     same_files.append([files1_names[i], files2_names[j]])
                     remove_from_unique(files1_names[i], files2_names[j], unique_files1, unique_files2)
@@ -85,3 +93,7 @@ if __name__ == "__main__":
         print(
               "{file_name}".format(file_name=name_file)
         )
+
+
+if __name__ == "__main__":
+     main()
