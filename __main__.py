@@ -52,7 +52,7 @@ def main():
                 l1, l2 = l2, l1
                 size1, size2 = size2, size1
             
-            if (size1 > 10**5): #If size is not huge, we can use asimptotically bad function, that gives as exact answer
+            if (size1 <= 10**6): #If size is not huge, we can use asimptotically bad function, that gives as exact answer
                 matcher = SequenceMatcher(None, l1, l2)
                 matches = sum(triple[-1] for triple in matcher.get_matching_blocks())
                 accuracy_between_files = matches / size1
