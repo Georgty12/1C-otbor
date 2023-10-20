@@ -1,11 +1,12 @@
 import os
 from difflib import SequenceMatcher
 
+dir1_name = "dir1"    
+dir2_name = "dir2"
 
-if __name__ == "__main__":
-    dir1_path = "./dir1"
-    dir2_path = "/Users/georgtyk/1C_otbor/1C-otbor/dir2"
-    
+if __name__ == "__main__":    
+    dir1_path = os.getcwd() + "/1C-otbor/" + dir1_name
+    dir2_path = os.getcwd() + "/1C-otbor/" + dir2_name
     _, _, files1_names = next(os.walk("{}".format(dir1_path)))
     _, _, files2_names = next(os.walk("{}".format(dir2_path)))
     
@@ -17,20 +18,16 @@ if __name__ == "__main__":
     
     percentage = int(input("Write the percentage number like \"33\"\n"))
     target_accuracy = percentage / 100
-    dir1_path = "dir1/"
-    dir2_path = "dir2/"
     same_files = []
     similar_files = []
     unique_files1 = set(files1_names)
     unique_files2 = set(files2_names)
-    print(unique_files1)
     for i in range(files_count1):
         for j in range(files_count2):
             l1 = files1[i]
             l2 = files2[j]
             size1 = len(l1) 
             size2 = len(l2)
-            print(size1, size2)
             if (size1 < size2):
                 l1, l2 = l2, l1
                 size1, size2 = size2, size1
@@ -54,25 +51,25 @@ if __name__ == "__main__":
     print("same files are:")
     for i in range(len(same_files)):
         print(
-              "{dir_path}/{file_name}".format(dir_path=dir1_path, file_name=same_files[i][0]),
+              "{dir_path}/{file_name}".format(dir_path=dir1_name, file_name=same_files[i][0]),
               " --- ", 
-              "{dir_path}/{file_name}".format(dir_path=dir2_path, file_name=same_files[i][1])
+              "{dir_path}/{file_name}".format(dir_path=dir2_name, file_name=same_files[i][1])
               )
     print("\nsimilar files are:")
     for i in range(len(similar_files)):
         print(
-              "{dir_path}/{file_name}".format(dir_path=dir1_path, file_name=similar_files[i][0]),
+              "{dir_path}/{file_name}".format(dir_path=dir1_name, file_name=similar_files[i][0]),
               " --- ", 
-              "{dir_path}/{file_name}".format(dir_path=dir2_path, file_name=similar_files[i][1])
+              "{dir_path}/{file_name}".format(dir_path=dir2_name, file_name=similar_files[i][1])
         )
     
     print("\nunique files for dir1 are:")
     for name_file in unique_files1:
         print(
-              "{dir_path}/{file_name}".format(dir_path=dir1_path, file_name=name_file)
+              "{dir_path}/{file_name}".format(dir_path=dir1_name, file_name=name_file)
         )
     print("\nunique files for dir2 are:")
     for name_file in unique_files2:
         print(
-              "{dir_path}/{file_name}".format(dir_path=dir2_path, file_name=name_file)
+              "{dir_path}/{file_name}".format(dir_path=dir2_name, file_name=name_file)
         )
